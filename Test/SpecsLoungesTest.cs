@@ -19,7 +19,7 @@ namespace AssessmentSpecsLounge.Test
     {
         private IWebDriver driver;
         private LocatorsPage locatorsPage;
-        
+
         [SetUp]
         public void OpenBrowser()
         {
@@ -37,28 +37,28 @@ namespace AssessmentSpecsLounge.Test
         public void VerifyCheckOutNowFlow()
         {
             locatorsPage.ClickOnShopNowButton();
-            Assert.IsTrue(driver.Url.Contains("frame-catalogue"), "User is not navigated to frame catalogue page.");  
+            Assert.IsTrue(driver.Url.Contains("frame-catalogue"), "User is not navigated to frame catalogue page.");
             locatorsPage.ClickOnTryMeButton();
-            Assert.IsTrue(driver.Url.Contains("frame-detail"),"User is not navigated to frame-detail page.");
+            Assert.IsTrue(driver.Url.Contains("frame-detail"), "User is not navigated to frame-detail page.");
             locatorsPage.ClickOnSelectLensesButton();
             Thread.Sleep(5000);
             Assert.IsTrue(driver.Url.Contains("lens-selector"), "User is not check out page.");
             locatorsPage.ClickOnCheckoutNowButton();
             Thread.Sleep(5000);
             Assert.IsTrue(driver.Url.Contains("your-contact-details"), "User is not navigated to enter delivery address page.");
-            this.FillDeliveryAddressDetails("Rukmini", "Prakash", "rukmini1310@gmail.com", "9663656435","560001", "Ban", "Ecity");
+            this.FillDeliveryAddressDetails("Rukmini", "Prakash", "rukmini1310@gmail.com", "9663656435", "560001", "Ban", "Ecity");
         }
 
         public void FillDeliveryAddressDetails(string firstName, string lastName, string email, string phoneNumber, string postalCode, string address, string streetName)
         {
-            
+
             locatorsPage.firstNameField.SendKeys(firstName);
             locatorsPage.lastNameField.SendKeys(lastName);
             locatorsPage.emailNameField.SendKeys(email);
             locatorsPage.phoneField.SendKeys(phoneNumber);
-            // this.EnterPostalCodeAndSelectFirst(postalCode);
+            this.EnterPostalCodeAndSelectFirst(postalCode);
             this.EnterAddressAndSelectFirst(address);
-            locatorsPage.streetField.SendKeys(streetName); 
+            locatorsPage.streetField.SendKeys(streetName);
         }
 
         public void EnterPostalCodeAndSelectFirst(string postalCode)
@@ -66,7 +66,7 @@ namespace AssessmentSpecsLounge.Test
             locatorsPage.postalCodeField.SendKeys(postalCode);
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            By firstSuggestion = By.XPath("//ul/li[1]");
+            By firstSuggestion = By.XPath("//div[@class='suggestion-container postalcode']/ul");
 
             IWebElement option = wait.Until(ExpectedConditions.ElementToBeClickable(firstSuggestion));
             option.Click();
@@ -77,7 +77,7 @@ namespace AssessmentSpecsLounge.Test
             locatorsPage.addressField.SendKeys(address);
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            By firstSuggestion = By.XPath("//ul/li[1]");
+            By firstSuggestion = By.XPath("//div[@class='suggestion-container street']/ul");
 
             IWebElement option = wait.Until(ExpectedConditions.ElementToBeClickable(firstSuggestion));
             option.Click();
